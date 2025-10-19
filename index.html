@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Demo ImpactProof — Form Lead</title>
+  <!-- GTM head (tu colleras le snippet après l’étape GTM) -->
+</head>
+<body>
+  <!-- GTM body (tu colleras le snippet après l’étape GTM) -->
+  <h1>Demande de démo</h1>
+  <form id="leadForm">
+    <label>Nom <input type="text" name="name" required></label><br>
+    <label>Email <input type="email" name="email" required></label><br>
+    <button type="submit">Envoyer</button>
+  </form>
+  <p id="thanks" style="display:none;">Merci ! (page de confirmation)</p>
+  <script>
+    document.getElementById('leadForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      // Simule la soumission et affiche la page de remerciement
+      this.style.display = 'none';
+      document.getElementById('thanks').style.display = 'block';
+      // Data Layer pour GTM
+      window.dataLayer = window.dataLayer || [];
+      // 1) Clic d'envoi (generate_lead)
+      window.dataLayer.push({
+        'event': 'generate_lead',
+        'value': 80,
+        'currency': 'EUR',
+        'event_id': 'lead_'+Date.now()
+      });
+      // 2) Soumission validée (submit_form)
+      window.dataLayer.push({
+        'event': 'submit_form',
+        'value': 80,
+        'currency': 'EUR',
+        'event_id': 'lead_'+Date.now()
+      });
+    });
+  </script>
+</body>
+</html>
