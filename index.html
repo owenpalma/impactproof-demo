@@ -1,40 +1,65 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>Demo ImpactProof — Form Lead</title>
-  <!-- GTM head (tu colleras le snippet après l’étape GTM) -->
+
+  <!-- Google Tag Manager -->
+  <script>
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-N5ZMC5CG');
+  </script>
+  <!-- End Google Tag Manager -->
 </head>
+
 <body>
-  <!-- GTM body (tu colleras le snippet après l’étape GTM) -->
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5ZMC5CG"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
   <h1>Demande de démo</h1>
+
   <form id="leadForm">
-    <label>Nom <input type="text" name="name" required></label><br>
-    <label>Email <input type="email" name="email" required></label><br>
+    <label>Nom <input type="text" name="name" required></label><br/>
+    <label>Email <input type="email" name="email" required></label><br/>
     <button type="submit">Envoyer</button>
   </form>
+
   <p id="thanks" style="display:none;">Merci ! (page de confirmation)</p>
+
   <script>
+    // Data Layer pour GTM si non présent
+    window.dataLayer = window.dataLayer || [];
+
+    // Soumission du formulaire (démo)
     document.getElementById('leadForm').addEventListener('submit', function(e){
       e.preventDefault();
-      // Simule la soumission et affiche la page de remerciement
+
+      // UI : afficher l'état "merci"
       this.style.display = 'none';
       document.getElementById('thanks').style.display = 'block';
-      // Data Layer pour GTM
-      window.dataLayer = window.dataLayer || [];
-      // 1) Clic d'envoi (generate_lead)
+
+      // Un seul event_id réutilisé pour la dédup (web / serveur plus tard)
+      const eid = 'lead_' + Date.now();
+
+      // 1) Intention d’envoi du lead
       window.dataLayer.push({
         'event': 'generate_lead',
         'value': 80,
         'currency': 'EUR',
-        'event_id': 'lead_'+Date.now()
+        'event_id': eid
       });
-      // 2) Soumission validée (submit_form)
+
+      // 2) Soumission validée
       window.dataLayer.push({
         'event': 'submit_form',
         'value': 80,
         'currency': 'EUR',
-        'event_id': 'lead_'+Date.now()
+        'event_id': eid
       });
     });
   </script>
